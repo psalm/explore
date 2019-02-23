@@ -1,0 +1,19 @@
+Header set Access-Control-Allow-Origin "*"
+AddType image/svg+xml svg svgz
+AddType application/javascript .js
+AddEncoding gzip svgz
+<ifmodule mod_deflate.c>
+AddOutputFilterByType DEFLATE text/css application/x-javascript application/javascript
+</ifmodule>
+
+DirectoryIndex index.php index.html
+
+RewriteEngine On
+RewriteBase /
+RewriteRule ^github/hacktophp/hacktophp/master/$ /demo.php?path=$1 [L,NC]
+RewriteRule ^quickstart/?$ /views/quickstart.php [L,NC]
+RewriteRule ^$ [F,L]
+
+RewriteRule ^composer\.*$ - [F,L]
+RewriteRule ^vendor/?.*$ - [F,L]
+RewriteRule ^dbconfig.php.*$ - [F,L]
