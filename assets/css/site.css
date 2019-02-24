@@ -421,12 +421,10 @@ span.CodeMirror-selectedtext { background: none; }
 .cm-s-elegant .CodeMirror-matchingbracket { outline:1px solid rgba(0,0,0,0.15); color:black !important; }
 
 .CodeMirror-lint-mark-error, span.error_count {
-    background-color: #fbd7da;
-    box-shadow: 0 0 0px 2px #fbd7da !important;
+    background-color: #fbd7da !important;
 }
 .CodeMirror-lint-mark-warning, span.warning_count {
     background-color: #ffe691;
-    box-shadow: 0 0 0px 1px #ffe691;
 }
 .CodeMirror-lint-mark-reference {
     text-decoration: underline;
