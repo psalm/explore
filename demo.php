@@ -79,6 +79,12 @@ var cm = CodeMirror.fromTextArea(document.getElementById("php_code"), {
     }
 });
 
+CodeMirror.defineExtension("centerOnLine", function(line) { 
+  var h = this.getScrollInfo().clientHeight; 
+  var coords = this.charCoords({line: line, ch: 0}, "local"); 
+  this.scrollTo(null, (coords.top + coords.bottom - h) / 2); 
+}); 
+
 cm.getWrapperElement().onmouseup = function(e) {
     var cursorPos = cm.indexFromPos(cm.coordsChar({ left: e.clientX, top: e.clientY }));
 
@@ -98,13 +104,20 @@ cm.getWrapperElement().onmouseup = function(e) {
                 continue;
             }
 
-            console.log(from, to);
-
             reference = file_reference_map[from][1];
         }
 
         if (reference && reference in type_map_dictionary) {
-            alert('Would navigate to ' + type_map_dictionary[reference]);
+            var location = type_map_dictionary[reference];
+
+            var location_parts = location.split(':');
+
+            if (location_parts[0] === file_name) {
+                cm.centerOnLine(location_parts[1]);
+                cm.setCursor(location_parts[1], location_parts[2]);
+            } else {
+                alert('Would navigate to ' + location);
+            }
         }
     }
 }
