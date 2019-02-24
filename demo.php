@@ -66,7 +66,7 @@ var fetchAnnotations = function (code, callback, options, cm) {
     );
 };
 
-var editor = CodeMirror.fromTextArea(document.getElementById("php_code"), {
+var cm = CodeMirror.fromTextArea(document.getElementById("php_code"), {
     lineNumbers: true,
     matchBrackets: true,
     mode: "text/x-php",
@@ -79,11 +79,9 @@ var editor = CodeMirror.fromTextArea(document.getElementById("php_code"), {
     }
 });
 
-editor.on("dblclick", function(){    
-    var cursorPos = editor.getCursor("from");
+cm.getWrapperElement().onmouseup = function(e) {
+    var cursorPos = cm.indexFromPos(cm.coordsChar({ left: e.clientX, top: e.clientY }));
 
-    console.log('click at ' + cursorPos);
-    
     if (file_name in type_map_files) {
         var [file_reference_map] = type_map_files[file_name];
 
@@ -94,9 +92,13 @@ editor.on("dblclick", function(){
                 break;
             }
 
-            if (file_reference_map[from][0] < cursorPos) {
+            var to = file_reference_map[from][0];
+
+            if (to < cursorPos) {
                 continue;
             }
+
+            console.log(from, to);
 
             reference = file_reference_map[from][1];
         }
@@ -105,7 +107,8 @@ editor.on("dblclick", function(){
             alert('Would navigate to ' + type_map_dictionary[reference]);
         }
     }
-});
+}
+
 
 </script>
 </body>
