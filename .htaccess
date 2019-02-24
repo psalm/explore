@@ -10,9 +10,7 @@ DirectoryIndex index.php index.html
 
 RewriteEngine On
 RewriteBase /
-RewriteRule ^github/hacktophp/hacktophp/master/$ /demo.php?path=$1 [L,NC]
-RewriteRule ^quickstart/?$ /views/quickstart.php [L,NC]
-RewriteRule ^$ [F,L]
+RewriteRule ^github/hacktophp/hacktophp/master/(src/HackToPhp/Transform/FunctionDeclarationTransformer\.php)$ /demo.php?$1 [L,NC]
 
 RewriteRule ^composer\.*$ - [F,L]
 RewriteRule ^vendor/?.*$ - [F,L]

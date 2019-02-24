@@ -1,3 +1,112 @@
-<?php
+<html>
+<head>
+<title>Psalm Code Explorer</title>
+<script src="/assets/js/codemirror.js"></script>
+<link rel="stylesheet" type="text/css" href="https://cloud.typography.com/751592/7707372/css/fonts.css" />
+<link rel="stylesheet" type="text/css" href="/assets/css/site.css" />
+<meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
+</head>
+<body>
 
-echo 'here';
+<textarea
+    name="php_code"
+    id="php_code"
+    rows="20" style="visibility: hidden; font-family: monospace; font-size: 14px; max-width: 900px; min-width: 320px;"
+><?php echo file_get_contents('FunctionDeclarationTransformer.php') ?></textarea>
+
+<script>
+
+var file_name = '<?php echo $_SERVER['QUERY_STRING'] ?? '' ?>';
+var issues = <?php echo file_get_contents("issues.json") ?>;
+var type_map = <?php echo file_get_contents("type_map.json") ?>;
+
+var type_map_files = type_map.files;
+var type_map_dictionary = type_map.references;
+
+var file_issues = issues.filter(function (issue) {
+    return issue.file_name === file_name;
+});
+
+var fetchAnnotations = function (code, callback, options, cm) {
+    var mapped_issues = file_issues.map(
+        function (issue) {
+            return {
+                severity: issue.severity === 'error' ? 'error' : 'warning',
+                message: issue.message,
+                from: cm.posFromIndex(issue.from),
+                to: cm.posFromIndex(issue.to)
+            };
+        }
+    );
+
+    if (file_name in type_map_files) {
+        var [file_reference_map, file_type_map] = type_map_files[file_name];
+
+        Object.keys(file_type_map).forEach(function (from) {
+            mapped_issues.push({
+                severity: 'type',
+                message: file_type_map[from][1],
+                from: cm.posFromIndex(from),
+                to: cm.posFromIndex(file_type_map[from][0])
+            });
+        });
+
+        Object.keys(file_reference_map).forEach(function (from) {
+            mapped_issues.push({
+                severity: 'reference',
+                message: file_reference_map[from][1],
+                from: cm.posFromIndex(from),
+                to: cm.posFromIndex(file_reference_map[from][0])
+            });
+        });
+    }
+
+    callback(
+        mapped_issues
+    );
+};
+
+var editor = CodeMirror.fromTextArea(document.getElementById("php_code"), {
+    lineNumbers: true,
+    matchBrackets: true,
+    mode: "text/x-php",
+    indentUnit: 4,
+    theme: 'elegant',
+    readOnly: true,
+    lint: {
+        getAnnotations: fetchAnnotations,
+        async: true,
+    }
+});
+
+editor.on("dblclick", function(){    
+    var cursorPos = editor.getCursor("from");
+
+    console.log('click at ' + cursorPos);
+    
+    if (file_name in type_map_files) {
+        var [file_reference_map] = type_map_files[file_name];
+
+        var reference = null;
+
+        for (var from in file_reference_map) {
+            if (cursorPos < from) {
+                break;
+            }
+
+            if (file_reference_map[from][0] < cursorPos) {
+                continue;
+            }
+
+            reference = file_reference_map[from][1];
+        }
+
+        if (reference && reference in type_map_dictionary) {
+            alert('Would navigate to ' + type_map_dictionary[reference]);
+        }
+    }
+});
+
+</script>
+</body>
+</html>
