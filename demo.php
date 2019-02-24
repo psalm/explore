@@ -5,7 +5,7 @@ $file_name = htmlentities($_SERVER['QUERY_STRING'] ?? '');
 <head>
 <title>Psalm Output Explorer</title>
 <script src="/assets/js/codemirror.js"></script>
-<link rel="stylesheet" type="text/css" href="https://cloud.typography.com/751592/7707372/css/fonts.css" />
+<link rel="stylesheet" type="text/css" href="https://cloud.typography.com/751592/6095012/css/fonts.css" />
 <link rel="stylesheet" type="text/css" href="/assets/css/site.css" />
 <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 </head>

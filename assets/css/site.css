@@ -490,20 +490,25 @@ body {
 }
 
 nav {
-    height: 100px;
+    height: 70px;
     overflow: auto;
     box-sizing: border-box;
-    padding: 10px;
-    border-bottom: 1px solid #666;
+    padding: 10px 0 10px 30px;
+    border-bottom: 1px solid #c1c1c1;
     background: #eee;
 }
 
 h1, h2 {
-    font-size: 14px;
+    font-size: 16px;
     font-family: "Operator A", "Operator B";
     font-style: normal;
     font-weight: 400;
     line-height: 1.5em;
+    margin: 0;
+}
+
+h1 {
+    font-weight: bold;
 }
 
 div.CodeMirror,
@@ -522,8 +527,8 @@ code {
 div.CodeMirror {
     margin: 0;
     z-index: 2;
-    font-size: 14px;
-    height: calc(100vh - 100px);
+    font-size: 12px;
+    height: calc(100vh - 70px);
     overflow: hidden;
     position: relative;
 }
