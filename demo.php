@@ -114,7 +114,6 @@ cm.getWrapperElement().onmouseup = function(e) {
 
             if (location_parts[0] === file_name) {
                 cm.centerOnLine(location_parts[1]);
-                cm.setCursor(location_parts[1], location_parts[2]);
             } else {
                 alert('Would navigate to ' + location);
             }
