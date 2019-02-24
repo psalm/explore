@@ -420,13 +420,13 @@ span.CodeMirror-selectedtext { background: none; }
 .cm-s-elegant .CodeMirror-activeline-background { background: #e8f2ff; }
 .cm-s-elegant .CodeMirror-matchingbracket { outline:1px solid rgba(0,0,0,0.15); color:black !important; }
 
-.CodeMirror-lint-mark-error {
+.CodeMirror-lint-mark-error, span.error_count {
     background-color: #fbd7da;
     box-shadow: 0 0 0px 2px #fbd7da !important;
 }
-.CodeMirror-lint-mark-warning {
-    background-color: #f5ca3685;
-    box-shadow: 0 0 0px 1px #f5ca3685;
+.CodeMirror-lint-mark-warning, span.warning_count {
+    background-color: #ffe691;
+    box-shadow: 0 0 0px 1px #ffe691;
 }
 .CodeMirror-lint-mark-reference {
     text-decoration: underline;
@@ -488,6 +488,16 @@ body {
     min-height: 100%;
 }
 
+nav {
+    height: 100px;
+    overflow: scroll;
+}
+
+h1, h2 {
+    font-size: 14px;
+    display: inline-block;
+}
+
 .container {
     max-width: 960px;
     margin: 0 auto;
@@ -519,7 +529,7 @@ div.CodeMirror {
     margin: 0;
     z-index: 2;
     font-size: 14px;
-    height: 100%;
+    height: 100vh - 100px;
     overflow: hidden;
     position: relative;
 }

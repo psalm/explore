@@ -1,12 +1,20 @@
+<?php
+$file_name = htmlentities($_SERVER['QUERY_STRING'] ?? '');
+?>
 <html>
 <head>
-<title>Psalm Code Explorer</title>
+<title>Psalm Output Explorer</title>
 <script src="/assets/js/codemirror.js"></script>
 <link rel="stylesheet" type="text/css" href="https://cloud.typography.com/751592/7707372/css/fonts.css" />
 <link rel="stylesheet" type="text/css" href="/assets/css/site.css" />
 <meta name="viewport" content="initial-scale=1.0,maximum-scale=1.0,user-scalable=no">
 </head>
 <body>
+
+<nav>
+<h1><a href="https://psalm.dev">Psalm</a> Output Explorer</h1>
+<h2><?php echo $file_name ?> - <span class="error_count">14 errors</span>, <span class="warning_count">18 warnings</span></h2>
+</nav>
 
 <textarea
     name="php_code"
@@ -16,7 +24,7 @@
 
 <script>
 
-var file_name = '<?php echo $_SERVER['QUERY_STRING'] ?? '' ?>';
+var file_name = '<?php echo $file_name ?>';
 var issues = <?php echo file_get_contents("issues.json") ?>;
 var type_map = <?php echo file_get_contents("type_map.json") ?>;
 
